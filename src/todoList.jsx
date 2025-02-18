@@ -1,11 +1,17 @@
 import styles from "./FruitsList.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaTrash, FaArrowUp, FaArrowDown, FaEdit } from "react-icons/fa";
 
 export default function FruitsList() {
-    const [fruits, setFruits] = useState([]);
+    const [fruits, setFruits] = useState(()=>{
+        return JSON.parse(localStorage.getItem('fruits')) || []
+    });
     const [fruitsName, setFruitsName] = useState("");
     const [editFruitId, setEditFruitId] = useState(null);
+
+    useEffect(()=>{
+        localStorage.setItem('fruits', JSON.stringify(fruits))
+    },[fruits])
 
     const addOrUpdateFruit = () => {
         if (fruitsName.trim()) {
